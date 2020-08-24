@@ -5,7 +5,7 @@ import java.util.Random;
 /**
  * 冒泡排序
  *
- * Author zhan
+ * Author zhanzhan
  * Date：2020/8/23
  * Time: 22:51
  */
