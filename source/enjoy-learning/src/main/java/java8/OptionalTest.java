@@ -1,9 +1,9 @@
 package java8;
 
-import org.junit.Test;
-
 import java.util.NoSuchElementException;
 import java.util.Optional;
+
+import org.junit.Test;
 
 /**
  * @Description Java 8新特性：Optional类
@@ -34,6 +34,11 @@ public class OptionalTest {
 
         public String getAge() {
             return age;
+        }
+
+        @Override
+        public String toString() {
+            return "User{" + "id=" + id + ", name='" + name + '\'' + ", age='" + age + '\'' + '}';
         }
     }
 
@@ -84,7 +89,7 @@ public class OptionalTest {
     }
 
     /**
-     * Optional 写法
+     * 获取用户 Optional写法
      */
     public Optional<User> getUser1(Long id) {
         if (null != id) {
@@ -99,9 +104,19 @@ public class OptionalTest {
      * 提供者返回的类型为Optional，
      * 那么就是说返回的对象可能为null,那么我要分别判断存在和不存在该如何处理了
      */
-
-
     @Test
+    public void test(){
+        Optional<User> userOp = getUser1(10L);
+        if (userOp.isPresent()){
+            User user = userOp.get();
+            System.out.println(user);
+            // TODO
+        }else{
+            // TODO
+        }
+    }
+
+
     public void OptionalTest() {
 
     }
