@@ -95,6 +95,9 @@ public class OptionalTest {
 
     /**
      * 身为调用者
+     *
+     * 提供者返回的类型为Optional，
+     * 那么就是说返回的对象可能为null,那么我要分别判断存在和不存在该如何处理了
      */
 
 
