@@ -15,7 +15,7 @@ public class Mgr01 {
     private static final Mgr01 INSTANCE = new Mgr01();
 
     /**
-     * 构造方法私有；出了这个类，new不出来
+     * 构造方法私有；不能由外部调用的(出了这个类，new不出来)
      */
     private Mgr01() {};
 
