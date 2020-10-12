@@ -32,6 +32,23 @@
             <artifactId>lombok</artifactId>
             <version>1.18.14</version>
         </dependency>
+        <!-- 解决报错内容：
+        SLF4J: Failed to load class "org.slf4j.impl.StaticLoggerBinder".
+        SLF4J: Defaulting to no-operation (NOP) logger implementation
+        SLF4J: See http://www.slf4j.org/codes.html#StaticLoggerBinder for further details
+        加下面依赖 -->
+        <dependency>
+            <groupId>org.slf4j</groupId>
+            <artifactId>slf4j-nop</artifactId>
+            <version>1.7.2</version>
+        </dependency>
+
+        <!--实体映射转化-->
+        <dependency>
+            <groupId>ma.glasnost.orika</groupId>
+            <artifactId>orika-core</artifactId>
+            <version>1.5.2</version>
+        </dependency>
 
         <dependency>
             <groupId>junit</groupId>
