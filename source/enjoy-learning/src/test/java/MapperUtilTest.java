@@ -1,7 +1,7 @@
 import com.google.common.collect.Maps;
-import dto.PersonDTO;
-import entity.Person;
-import entity.User;
+import common.dto.PersonDTO;
+import common.entity.Person;
+import common.entity.User;
 import ma.glasnost.orika.MapperFacade;
 import ma.glasnost.orika.MapperFactory;
 import ma.glasnost.orika.impl.DefaultMapperFactory;
@@ -76,7 +76,7 @@ public class MapperUtilTest {
         classMapBuilder.byDefault().register();
         MapperFacade mapperFacade = factory.getMapperFacade();
         PersonDTO dto = mapperFacade.map(person, PersonDTO.class);
-        //PersonDTO dto = MapperUtil.MAPPER_FACADE.map(person, PersonDTO.class);这种方式不行
+        //PersonDTO common.dto = MapperUtil.MAPPER_FACADE.map(person, PersonDTO.class);这种方式不行
 
         //输出结果
         System.out.println("原始对象：" + person);
