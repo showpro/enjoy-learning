@@ -4,6 +4,7 @@ package java8;
  * @Description
  * @Author zhanzhan
  * @Date 2020/10/30 10:56
+ * 参考： https://www.cnblogs.com/jianwei-dai/p/5819479.html
  * <p>
  * 一、函数式接口
  * 函数式接口（functional interface 也叫功能性接口，其实是同一个东西）。简单来说，函数式接口就是一个有且仅有一个抽象方法,但是可以有多个非抽象方法的接口。比如Java标准库中的java.lang.Runnable和 java.util.Comparator都是典型的函数式接口。
