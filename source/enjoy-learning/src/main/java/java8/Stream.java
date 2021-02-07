@@ -44,7 +44,7 @@ public class Stream {
         List<Users> list = users();
         List<Users> newlist = list.stream().filter(user -> user.getAge() > 20)
                 .collect(Collectors.toList());
-        System.out.println("------结果------");
+        System.out.println("------filter结果------");
         for (Users user : newlist) {
             System.out.println(user.getName()+" --> "+ user.getAge());
         }
@@ -56,7 +56,7 @@ public class Stream {
         List<Users> newlist = list.stream()
                 .sorted(Comparator.comparingInt(Users::getAge))
                 .collect(Collectors.toList());
-        System.out.println("------结果------");
+        System.out.println("------sorted结果------");
         for (Users user : newlist) {
             System.out.println(user.getName()+" --> "+ user.getAge());
         }
@@ -67,7 +67,7 @@ public class Stream {
         List<Users> list = users();
         List<String> newlist = list.stream()
                 .map(Users::getName).distinct().collect(Collectors.toList());
-        System.out.println("------结果------");
+        System.out.println("------map结果------");
         for (String add : newlist) {
             System.out.println(add);
         }
@@ -87,6 +87,7 @@ public class Stream {
                 .map(s -> s.split(","))
                 .flatMap(Arrays::stream)
                 .collect(Collectors.toList());
+        System.out.println("------flatmap结果------");
         for (String name : flatmap) {
             System.out.println(name);
         }
@@ -97,7 +98,7 @@ public class Stream {
         List<Users> list = users();
         boolean flag = list.stream()
                 .allMatch(user -> user.getAge() >= 17);
-        System.out.println(flag);
+        System.out.println("allMatch:" + flag);
     }
 
     /*anyMatch（T->boolean）检测是否有任意元素满足给定的条件*/
@@ -105,7 +106,7 @@ public class Stream {
         List<Users> list = users();
         boolean flag = list.stream()
                 .anyMatch(user -> user.getSex() == 1);
-        System.out.println(flag);
+        System.out.println("anyMatch:" + flag);
     }
 
     /*拼接*/
@@ -121,6 +122,7 @@ public class Stream {
     public static void group(){
         Map<Integer, List<Users>> map = users().stream()
                 .collect(Collectors.groupingBy(Users::getSex));
+        System.out.println("------groupingBy结果------");
         System.out.println(JSON.toJSONString(map));
         System.out.println();
         Map<Integer, Map<Integer,List<Users>>> map2 = users().stream()
