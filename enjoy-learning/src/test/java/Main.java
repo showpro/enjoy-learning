@@ -34,6 +34,12 @@ public class Main {
         Integer i = 11;
         Boolean flag = false;
         System.out.println(flag ? 0 : i);
+
+        String str="dx123abc456";
+        int j=2;
+        //去掉字符串的前i个字符：
+        str=str.substring(str.lastIndexOf("x")+1);
+        System.out.println(str);
     }
 
 //    @Test
