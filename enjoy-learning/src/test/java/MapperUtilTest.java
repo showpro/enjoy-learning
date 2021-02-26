@@ -26,7 +26,7 @@ public class MapperUtilTest {
     @Test
     public void Test1() {
         //先创建一个实体对象DO class
-        Person person = new Person(1200L, "高富帅", "gaofushuai@163.com", new Date(), new User(25), null);
+        Person person = new Person(1200L, "高富帅", "男","gaofushuai@163.com", new Date(), new User(25), null);
         //对象之间默认字段映射
         PersonDTO personDTO = MapperUtil.INSTANCE.map(PersonDTO.class, person);
         //输出结果
@@ -41,7 +41,7 @@ public class MapperUtilTest {
     @Test
     public void Test2() {
         // 要测试pemail 和email之间的映射,在Person DO实体对象中修改email属性为pemail
-        Person person = new Person(1200L, "高富帅", "gaofushuai@163.com", new Date(), new User(25), null);
+        Person person = new Person(1200L, "高富帅", "男", "gaofushuai@163.com", new Date(), new User(25), null);
         // key 是数据对象 value 是映射对象
         Map<String, String> map = Maps.newHashMap();
         map.put("birth", "birth");
@@ -66,7 +66,7 @@ public class MapperUtilTest {
         address.put("company", "来广营");
         address.put("home", "望京");
 
-        Person person = new Person(1200L, "高富帅", "gaofushuai@163.com", new Date(), new User(25), address);
+        Person person = new Person(1200L, "高富帅", "男","gaofushuai@163.com", new Date(), new User(25), address);
         // field字段转换过程：
         MapperFactory factory = new DefaultMapperFactory.Builder().build();
         ClassMapBuilder classMapBuilder = factory.classMap(Person.class, PersonDTO.class)
