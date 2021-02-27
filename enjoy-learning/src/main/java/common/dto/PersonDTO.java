@@ -17,6 +17,7 @@ import java.util.Date;
 public class PersonDTO {
     private Long id;
     private String name;
+    private String sex;
     private String email;
     /**
      * 对应 Person.user.age

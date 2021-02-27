@@ -18,6 +18,7 @@ import java.util.Map;
 public class Person {
     private Long id;
     private String name;
+    private String sex;
     //private String email;
     private String pemail;
     private Date birth;
