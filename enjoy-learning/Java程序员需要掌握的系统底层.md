@@ -1,4 +1,4 @@
-相关书籍推荐
+##相关书籍推荐
 读书的原则：不求甚解，观其大略
 
  
@@ -27,8 +27,8 @@
 
 ▪数据库：SQLite源码 Derby - JDK自带数据库
 
-硬件基础知识
-CPU的制作过程
+##硬件基础知识
+###CPU的制作过程
 Intel cpu的制作过程
 
 https://haokan.baidu.com/v?vid=11928468945249380709&pd=bjh&fr=bjhauthor&type=video
@@ -39,7 +39,7 @@ CPU是如何制作的（文字描述）
 
 https://www.sohu.com/a/255397866_468626
 
-CPU的原理
+###CPU的原理
 计算机需要解决的最根本问题：如何代表数字
 
 晶体管是如何工作的：
@@ -50,7 +50,7 @@ https://haokan.baidu.com/v?vid=16026741635006191272&pd=bjh&fr=bjhauthor&type=vid
 
 https://www.bilibili.com/video/av47388949?p=2
 
-汇编语言（机器语言）的执行过程
+###汇编语言（机器语言）的执行过程
 汇编语言的本质：机器语言的助记符 其实它就是机器语言
 
 计算机通电 -> CPU读取内存中程序（电信号输入）
@@ -61,10 +61,10 @@ https://www.bilibili.com/video/av47388949?p=2
 
 ->计算完成->写回（电信号）->写给显卡输出（sout，或者图形）
 
-量子计算机
+###量子计算机
 量子比特，同时表示1 0
 
-CPU的基本组成
+###CPU的基本组成
 PC -> Program Counter 程序计数器 （记录当前指令地址）
 
 Registers -> 暂时存储CPU计算需要用到的数据
@@ -77,7 +77,7 @@ MMU -> Memory Management Unit 内存管理单元
 
 cache
 
-缓存
+###缓存
 一致性协议：https://www.cnblogs.com/z00377750/p/9180644.html
 
  
@@ -91,26 +91,26 @@ cache
 取一个折中值，目前多用：
 
 64字节
-
+```java
 package com.mashibing.juc.c_028_FalseSharing;
-​
+
 public class T03_CacheLinePadding {
-​
+
     public static volatile long[] arr = new long[2];
-​
+
     public static void main(String[] args) throws Exception {
         Thread t1 = new Thread(()->{
             for (long i = 0; i < 10000_0000L; i++) {
                 arr[0] = i;
             }
         });
-​
+
         Thread t2 = new Thread(()->{
             for (long i = 0; i < 10000_0000L; i++) {
                 arr[1] = i;
             }
         });
-​
+
         final long start = System.nanoTime();
         t1.start();
         t2.start();
@@ -119,28 +119,29 @@ public class T03_CacheLinePadding {
         System.out.println((System.nanoTime() - start)/100_0000);
     }
 }
+```
 ​
  
-
+```java
 package com.mashibing.juc.c_028_FalseSharing;
-​
+
 public class T04_CacheLinePadding {
-​
+
     public static volatile long[] arr = new long[16];
-​
+
     public static void main(String[] args) throws Exception {
         Thread t1 = new Thread(()->{
             for (long i = 0; i < 10000_0000L; i++) {
                 arr[0] = i;
             }
         });
-​
+
         Thread t2 = new Thread(()->{
             for (long i = 0; i < 10000_0000L; i++) {
                 arr[8] = i;
             }
         });
-​
+
         final long start = System.nanoTime();
         t1.start();
         t2.start();
@@ -149,6 +150,9 @@ public class T04_CacheLinePadding {
         System.out.println((System.nanoTime() - start)/100_0000);
     }
 }
+```
+
+
 ​
 缓存行对齐：对于有些特别敏感的数字，会存在线程高竞争的访问，为了保证不发生伪共享，可以使用缓存航对齐的编程方式
 
@@ -156,44 +160,44 @@ JDK7中，很多采用long padding提高效率
 
 JDK8，加入了@Contended注解（实验）需要加上：JVM -XX:-RestrictContended
 
-乱序执行
+###乱序执行
 https://preshing.com/20120515/memory-reordering-caught-in-the-act/
 
 jvm/jmm/Disorder.java
 
-禁止乱序
+###禁止乱序
 CPU层面：Intel -> 原语(mfence lfence sfence) 或者锁总线
 
 JVM层级：8个hanppens-before原则 4个内存屏障 （LL LS SL SS）
 
 as-if-serial : 不管硬件什么顺序，单线程执行的结果不变，看上去像是serial
 
-合并写（不重要）
+###合并写（不重要）
 Write Combining Buffer
 
 一般是4个字节
 
 由于ALU速度太快，所以在写入L1的同时，写入一个WC Buffer，满了之后，再直接更新到L2
 
-NUMA
+###NUMA
 Non Uniform Memory Access
 
 ZGC - NUMA aware 
 
 分配内存会优先分配该线程所在CPU的最近内存
 
-启动过程（不重要）
+###启动过程（不重要）
 通电 -> bios uefi 工作 -> 自检 -> 到硬盘固定位置加载bootloader -> 读取可配置信息 -> CMOS
 
-OS
-内核分类
+###OS
+###内核分类
 微内核 - 弹性部署 5G IoT
 
 宏内核 - PC phone
 
 外核 - 科研 实验中 为应用定制操作系统 (多租户 request-based GC JVM)
 
-用户态与内核态
+###用户态与内核态
 cpu分不同的指令级别
 
 linux内核跑在ring 0级， 用户程序跑在ring 3，对于系统的关键访问，需要经过kernel的同意，保证系统健壮性
@@ -202,7 +206,7 @@ linux内核跑在ring 0级， 用户程序跑在ring 3，对于系统的关键�
 
 JVM -> 站在OS老大的角度，就是个普通程序
 
-进程 线程 纤程 中断
+##进程 线程 纤程 中断
 面试高频：进程和线程有什么区别？
 
 答案：进程就是一个程序运行起来的状态，线程是一个进程中的不同的执行路径。专业：进程是OS分配资源的基本单位，线程是执行调度的基本单位。分配资源最重要的是：独立的内存空间，线程调度执行（线程共享进程的内存空间，没有自己独立的内存空间）
@@ -213,9 +217,10 @@ JVM -> 站在OS老大的角度，就是个普通程序
 
 目前2020 3 22支持内置纤程的语言：Kotlin Scala Go Python(lib)... Java? （open jdk : loom）
 
-Java中对于纤程的支持：没有内置，盼望内置
+###Java中对于纤程的支持：没有内置，盼望内置
 利用Quaser库（不成熟）
 
+```xml
 <?xml version="1.0" encoding="UTF-8"?>
 <project xmlns="http://maven.apache.org/POM/4.0.0"
          xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
@@ -236,7 +241,9 @@ Java中对于纤程的支持：没有内置，盼望内置
     </dependencies>
 ​
 </project>
+```
 
+```java​
 import co.paralleluniverse.fibers.Fiber;
 import co.paralleluniverse.fibers.SuspendExecution;
 import co.paralleluniverse.strands.SuspendableRunnable;
@@ -281,8 +288,9 @@ public class HelloFiber {
         }
     }
 }
+```
 ​
-​
+```java​
 import co.paralleluniverse.fibers.Fiber;
 import co.paralleluniverse.fibers.SuspendExecution;
 import co.paralleluniverse.strands.SuspendableRunnable;
@@ -327,13 +335,16 @@ public class HelloFiber2 {
         }
     }
 }
+```
 ​
 作业：目前是10000个Fiber -> 1个JVM线程，想办法提高效率，10000Fiber -> 10份 -> 10Threads
 
-纤程的应用场景
+###纤程的应用场景
 纤程 vs 线程池：很短的计算任务，不需要和内核打交道，并发量高！
 
-僵尸进程
+###僵尸进程
+
+```c++
 #include <stdio.h>
 #include <stdlib.h>
 #include <unistd.h>
@@ -351,8 +362,9 @@ int main() {
                 while(1) {}
         }
 }
-​
-孤儿进程
+```
+###孤儿进程
+```c++
 #include <stdio.h>
 #include <stdlib.h>
 #include <unistd.h>
@@ -373,8 +385,9 @@ int main() {
                 exit(0);
         }
 }
+```
 ​
-进程调度
+##进程调度
 2.6采用CFS调度策略：Completely Fair Scheduler
 
 按优先级分配时间片的比例，记录每个进程的执行时间，如果有一个进程执行时间不到他应该分配的比例，优先执行
@@ -384,7 +397,7 @@ int main() {
 实时 （急诊） 优先级分高低 - FIFO (First In First Out)，优先级一样 - RR（Round Robin）
 普通： CFS
 
-中断
+##中断
 硬件跟操作系统内核打交道的一种机制
 
 软中断（80中断） ==  系统调用
@@ -407,10 +420,11 @@ java读网络 – jvm read() – c库read() - >
 
  
 
-从汇编角度理解软中断
-搭建汇编环境
+##从汇编角度理解软中断
+###搭建汇编环境
 yum install nasm
 
+```
 ;hello.asm
 ;write(int fd, const void *buffer, size_t nbytes)
 ;fd 文件描述符 file descriptor - linux下一切皆文件
@@ -432,14 +446,15 @@ _start:
     mov ebx, 0
     mov eax, 1 ;exit函数系统调用号
     int 0x80
+```
 编译：nasm -f elf  hello.asm -o hello.o
 
 链接：ld -m elf_i386 -o hello hello.o
 
 一个程序的执行过程，要么处于用户态，要么处于内核态
 
-内存管理
-内存管理的发展历程
+##内存管理
+###内存管理的发展历程
 DOS时代 - 同一时间只能有一个进程在运行（也有一些特殊算法可以支持多进程）
 
 windows9x - 多个进程装入内存 1：内存不够用 2：互相打扰
@@ -465,14 +480,14 @@ DOS Win31 ... 互相干掉
 需要用到页面内存中没有，产生缺页异常（中断），由内核处理并加载
  
 
-ZGC
+###ZGC
 算法叫做：Colored Pointer
 
 GC信息记录在指针上，不是记录在头部， immediate memory use
 
 42位指针 寻址空间4T JDK13 -> 16T 目前为止最大16T 2^44
 
-CPU如何区分一个立即数 和 一条指令
+###CPU如何区分一个立即数 和 一条指令
 总线内部分为：数据总线 地址总线 控制总线
 
 地址总线目前：48位
@@ -481,8 +496,8 @@ CPU如何区分一个立即数 和 一条指令
 
  
 
-内核同步机制
-关于同步理论的一些基本概念
+##内核同步机制
+###关于同步理论的一些基本概念
 •临界区（critical area）: 访问或操作共享数据的代码段 
  简单理解：synchronized大括号中部分（原子性）
 
@@ -503,7 +518,7 @@ CPU如何区分一个立即数 和 一条指令
 
 互斥锁 排他锁 共享锁 分段锁
 
-内核同步常用方法
+###内核同步常用方法
 1.原子操作 – 内核中类似于AtomicXXX，位于<linux/types.h>
 
 2.自旋锁 – 内核中通过汇编支持的cas，位于<asm/spinlock.h>
@@ -532,9 +547,10 @@ CPU如何区分一个立即数 和 一条指令
 
 11.内存屏障 – 见volatile
 
-汇编实现引导程序
-编写汇编码
+##汇编实现引导程序
+###编写汇编码
 ​
+```
 ; 文件名 boot.asm
  
 org 7c00h                     ; BIOS读入MBR后，从0x7c00h处开始执行
@@ -554,14 +570,15 @@ msg: db "hello world, welcome to OS!"
 msgLen: equ $ - msg           ; 字符串长度
 times 510 - ($ - $$) db 0     ; 填充剩余部分
 dw 0aa55h                     ; 魔数，必须有这两个字节BIOS才确认是MBR
-编译
+```
+###编译
 nasm boot.asm -o boot.bin
 
-制作启动软盘
+###制作启动软盘
 dd if=/dev/zero of=floppy.img bs=1474560 count=1 生成空白软盘镜像
 dd if=boot.bin of=myos.img bs=512 count=1 制作包含主引导记录boot.bin的启动镜像文件
 dd if=floppy.img of=myos.img skip=1 seek=1 bs=512 count=2879 在 bin 生成的镜像文件后补上空白，成为合适大小的软盘镜像，一共2880个扇区，略过第一个
-用软盘启动系统
+###用软盘启动系统
 将myos.img下载到windows
 
 VMWare创建空的虚拟机
@@ -575,6 +592,6 @@ VMWare创建空的虚拟机
 添加软盘驱动器 使用软盘映像 找到myos.img
 启动虚拟机
 
-为什么是0x7C00?
+###为什么是0x7C00?
 
 参考：https://www.glamenv-septzen.net/en/view/6 
