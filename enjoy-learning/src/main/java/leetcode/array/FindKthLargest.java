@@ -1,5 +1,7 @@
 package leetcode.array;
 
+import java.util.Random;
+
 /**
  * @Description 数组中的第K个最大元素
  * @Author zhanzhan
@@ -65,5 +67,55 @@ public class FindKthLargest {
         int temp = nums[index1];
         nums[index1] = nums[index2];
         nums[index2] = temp;
+    }
+
+
+
+    //------------------------------------------------------------------------------
+
+    // 基于快速排序的选择方法
+    class Solution {
+        Random random = new Random();
+
+        public int findKthLargest(int[] nums, int k) {
+            return quickSelect(nums, 0, nums.length - 1, nums.length - k);
+        }
+
+        public int quickSelect(int[] a, int l, int r, int index) {
+            int q = randomPartition(a, l, r);
+            if (q == index) {
+                return a[q];
+            } else {
+                return q < index ? quickSelect(a, q + 1, r, index) : quickSelect(a, l, q - 1, index);
+            }
+        }
+
+        //随机划分
+        public int randomPartition(int[] a, int l, int r) {
+            //l 和 r 之间的所有随机数
+            int i = random.nextInt(r - l + 1) + l;
+            swap(a, i, r);
+            //下一趟排序新的基准
+            return partition(a, l, r);
+        }
+
+        //划分函数
+        public int partition(int[] a, int l, int r) {
+            int x = a[r], i = l - 1;
+            for (int j = l; j < r; ++j) {
+                if (a[j] <= x) {
+                    swap(a, ++i, j);
+                }
+            }
+            swap(a, i + 1, r);
+            return i + 1;
+        }
+
+        //交换
+        public void swap(int[] a, int i, int j) {
+            int temp = a[i];
+            a[i] = a[j];
+            a[j] = temp;
+        }
     }
 }
