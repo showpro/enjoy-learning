@@ -58,19 +58,19 @@ public class RandomQuickSort1 {
         //大于区的左边界
         int more = right;
         //current代表当前值索引
-        int current = left;
-        while (current < more){
+        //int current = left;
+        while (left < more){
             //当前值 ＜ 基准值
-            if (arr[current] < arr[right]){
-                swap(arr, ++less, current++);
-            }else if (arr[current] > arr[right]){
-                swap(arr, --more, current);
+            if (arr[left] < arr[right]){
+                swap(arr, ++less, left++);
+            }else if (arr[left] > arr[right]){
+                swap(arr, --more, left);
             }else
-                current++;
+                left++;
         }
         //此时已经分好区，把最后一个元素与＞区第一个元素交换，得到左边：＜基准值的区域，中间=基准值的区域，右边：＞基准值的区域
         swap(arr, more, right);
-
+        // =区 的索引区间
         int[] res = {less + 1,more};
         return res;
     }
