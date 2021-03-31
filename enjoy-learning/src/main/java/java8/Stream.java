@@ -19,6 +19,8 @@ public class Stream {
         sorted();
         map();
         flatmap();
+        peek();
+        findFisrt();
         allMatch();
         anyMatch();
         join();
@@ -62,7 +64,7 @@ public class Stream {
         }
     }
 
-    /*map(T->R)*/
+    /*map(T->R) 用来转换数据类型。 map方法的入参为 Function*/
     public static void map(){
         List<Users> list = users();
         List<String> newlist = list.stream()
@@ -91,6 +93,31 @@ public class Stream {
         for (String name : flatmap) {
             System.out.println(name);
         }
+    }
+
+    /* peek 用来修改数据。peek方法接收一个Consumer的入参 */
+    public static  void peek() {
+        List<Users> list = users();
+        //年龄小于25岁的赏金乘以2倍
+        List<Users> collect = list.stream().filter(users -> {
+            return users.getAge() < 25;
+        }).peek(users -> {
+            users.setMoney(users.getMoney().multiply(new BigDecimal(2)));
+        }).collect(Collectors.toList());
+        System.out.println("------peek结果------");
+        collect.forEach(System.out::println);
+    }
+
+    /* findFirst() 返回Stream中的第一个元素, .findAny()表示将其中任意一个返回 */
+    public static void findFisrt() {
+        List<Users> list = users();
+        //从列表中过滤出第一个性别：女的
+        Users user = list.stream()
+                .filter(users -> users.getSex() == 1)
+                .findFirst()
+                .orElse(null);//如果一个都没有返回null
+        System.out.println("------findFirst结果------");
+        System.out.println("findFirst结果:" + user);
     }
 
     /*allMatch（T->boolean）检测是否全部满足参数行为*/
