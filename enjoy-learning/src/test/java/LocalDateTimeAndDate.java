@@ -1,3 +1,6 @@
+import java.text.DateFormat;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.time.Instant;
 import java.time.LocalDateTime;
 import java.time.ZoneId;
@@ -19,7 +22,7 @@ import util.DateUtils;
 public class LocalDateTimeAndDate {
     public static void main(String[] args) {
 
-        System.out.println("当前时间：" + LocalDateTime.now());//2021-04-03T15:39:56.759
+        //System.out.println("当前时间：" + LocalDateTime.now());//2021-04-03T15:39:56.759
         System.out.println("当前时间：" + new Date());//Sat Apr 03 15:39:56 CST 2021
 
         DateTimeFormatter dateTimeFormatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss");
@@ -43,7 +46,7 @@ public class LocalDateTimeAndDate {
         //System.out.println("Date转LocalDateTime: "+localDateTime2);
 
         Date startOfDay = DateUtils.startOfDay();
-        System.out.println("startOfDay:"+ startOfDay);
+        //System.out.println("startOfDay:"+ startOfDay);
         Date endOfDay = DateUtils.endOfDay();
         //System.out.println("endOfDay:"+ endOfDay);
 
@@ -60,12 +63,17 @@ public class LocalDateTimeAndDate {
 
 
 
+        //昨天8点整
+        Date yesTodayEightClock = getSomeTime(-1,8, 0, 0);
+        //昨天18点整
+        Date yesTodayEighteenClock = getSomeTime(-1,18, 0, 0);
         //当天0点整
         Date todayZeroClock = getSomeTime(0,0, 0, 0);
         //当天8点整
         Date todayEightClock = getSomeTime(0,8, 0, 0);
         //当天18点整
         Date todayEighteenClock = getSomeTime(0,18, 0, 0);
+
         //明天0点整
         Date tommorrowZeroClock = getSomeTime(1,0, 0, 0);
         //明天8点整
@@ -73,13 +81,14 @@ public class LocalDateTimeAndDate {
         //8点加6个小时
         Date addHours = DateUtils.dateAddHours(todayEightClock, -6);
 
-        //
+        //2个时间相加减
         Date  test = getSomeTime(0,13, 0, 0);
         long last = todayEighteenClock.getTime() - test.getTime();
         Date expireTime = new Date(tommorrowEightClock.getTime()+last);
 
         // System.out.println("todayZeroClock:"+ todayZeroClock);
-        // System.out.println("todayEightClock:"+ todayEightClock);
+        System.out.println("todayEightClock:"+ todayEightClock);
+        System.out.println("yesTodayEightClock:"+ yesTodayEightClock);
         // System.out.println("todayEighteenClock:"+ todayEighteenClock);
         // System.out.println("tommorrowZeroClock:"+ tommorrowZeroClock);
         // System.out.println("tommorrowEightClock:"+ tommorrowEightClock);
@@ -87,8 +96,14 @@ public class LocalDateTimeAndDate {
         // System.out.println("expireTime:"+ expireTime);
 
 
-
-        getItemExpireTime(test);
+        DateFormat fmt = new SimpleDateFormat("yyyy-MM-dd hh:mm:ss.S");
+        Date date1 = null;
+        try {
+            date1 = fmt.parse("2021-04-02 15:59:59.0");
+        } catch (ParseException e) {
+            e.printStackTrace();
+        }
+        getItemExpireTime(date1);
 
     }
 
@@ -117,6 +132,10 @@ public class LocalDateTimeAndDate {
      * @return
      */
     public static Date getItemExpireTime(Date createTime) {
+        //昨天8点整
+        Date yestodayEightClock = getSomeTime(-1,8, 0, 0);
+        //昨天18点整
+        Date yestodayEighteenClock = getSomeTime(-1,18, 0, 0);
         //当天0点整
         Date todayZeroClock = getSomeTime(0,0, 0, 0);
         //当天8点整
@@ -129,9 +148,13 @@ public class LocalDateTimeAndDate {
         Date tommorrowEightClock = getSomeTime(1,8, 0, 0);
         Date expireTime = null;
 
+        Range<Date> dateRange = Range.closedOpen(yestodayEightClock, todayZeroClock);//[ )
         Range<Date> dateRange1 = Range.closedOpen(todayZeroClock, todayEightClock); //[ )
-        Range<Date> dateRange2 = Range.closed(todayEightClock, tommorrowZeroClock); //[ ]
+        Range<Date> dateRange2 = Range.closedOpen(todayEightClock, tommorrowZeroClock); //[ )
 
+        //昨天8点~昨天23:59:59下单
+        //if (yestodayEightClock.getTime() <= createTime.getTime() && createTime.getTime() <= todayZeroClock.getTime()) {
+        expireTime = getDate(createTime, yestodayEighteenClock, todayEightClock, expireTime, dateRange);
         //当天0点-当天8点
         // if (todayZeroClock.getTime() <= createTime.getTime() && createTime.getTime() < todayEightClock.getTime()) {
         //     expireTime = DateUtils.dateAddHours(todayEightClock, 6);
@@ -141,22 +164,29 @@ public class LocalDateTimeAndDate {
         }
         //当天8点-当天23:59:59
         // if (todayEightClock.getTime() <= createTime.getTime() && createTime.getTime() <= tommorrowZeroClock.getTime()) {
-        if (dateRange2.contains(createTime)) {
-            //18:00:00之前
-            if (createTime.getTime() < todayEighteenClock.getTime()) {
-                if (DateUtils.dateAddHours(createTime, 6).getTime() < todayEighteenClock.getTime()) {
+        expireTime = getDate(createTime, todayEighteenClock, tommorrowEightClock, expireTime, dateRange2);
+        System.out.println("过期时间为：" + expireTime);
+        return expireTime;
+    }
+
+    private static Date getDate(Date createTime, Date eighteenClock, Date eightClock, Date expireTime,
+        Range<Date> dateRange) {
+        if (dateRange.contains(createTime)) {
+            //昨天18:00:00之前
+            if (createTime.getTime() < eighteenClock.getTime()) {
+                if (DateUtils.dateAddHours(createTime, 6)
+                    .getTime() < eighteenClock.getTime()) {
                     expireTime = DateUtils.dateAddHours(createTime, 6);
                 } else {
-                    long last = todayEighteenClock.getTime() - createTime.getTime();
-                    Date temp = DateUtils.dateAddHours(tommorrowEightClock, 6);
+                    long last = eighteenClock.getTime() - createTime.getTime();
+                    Date temp = DateUtils.dateAddHours(eightClock, 6);
                     expireTime = new Date(temp.getTime() - last);
                 }
             } else {
-                //18:00:00之后
-                expireTime = DateUtils.dateAddHours(tommorrowEightClock, 6);
+                //昨天18:00:00之后
+                expireTime = DateUtils.dateAddHours(eightClock, 6);
             }
         }
-        System.out.println("过期时间为：" + expireTime);
         return expireTime;
     }
 
