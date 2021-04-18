@@ -138,17 +138,17 @@ public class DemoTest {
          * 需要通过class获取 或者 id获取
          *      @Autowired 找到匹配的type
          *      @Qualifier("id")  如果有多个，通过id匹配
-         *      Map<String,BeanDefinenition> map;  // match id
-         *      Map<Class,BeanDefinenition> map;  // match type
+         *      Map<String,BeanDefininition> map;  // match id
+         *      Map<Class,BeanDefininition> map;  // match type
          *
          * 有没有一种情况能够让我们在create object之前和之后发生一些事情呢？ 考虑扩展性  proccesor
          *
-         * 我们bean的定义信息可能在xml中，也可能在annotation中，那么到底在哪个里？
+         * 我们bean的定义信息可能在xml中，也可能在annotation中等多个数据源中，那么如何读取并创建实例？
          * 大致流程如下
-         * 1）抽象出一个接口BeanDefinetionReader，该接口的实现处理自己不同的逻辑（一个xml实现,一个annotation实现）；  这一步扩展性：可以自定义不同来源的信息
-         * 2）spring调抽象接口就可以了,将bean信息保存； 在1） 2）之间也可以扩展：在实例化之前，加一个proccesor，允许用户将信息填入，而不是去读
-         * 3）接着将bean的信息实例化
-         *      --> 前置proccesor   这一步扩展性：在实例化之前做一些事情
+         * 1）抽象出一个接口：BeanDefinitionReader去读需要哪个数据源，该接口的实现处理自己不同的逻辑（一个读xml实现,一个读annotation实现）；  这一步扩展性：可以自定义不同数据来源的信息
+         * 2）spring调抽象接口就可以了,将读取到的bean信息（还没创建对象）保存到容器中； 在1） 2）之间也可以扩展：在实例化之前，加一个proccesor，允许用户将信息填入，而不是去读
+         * 3）接着将bean的信息实例化,如果将实例化的对象直接放进容器不靠谱，因为对象中的一些@Autowired @Value注解等信息还没处理。
+         *      --> 前置proccesor：BeanPostProccesor   这一步扩展性：在实例化之前做一些事情,对bean增强
          *      --> create object
          *      -->后置proccesor    这一步扩展性：在实例化之后做一些事情
          *
