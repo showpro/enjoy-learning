@@ -398,10 +398,12 @@ public class StrUtil {
         int j = 0;// 字符串第一个字符
         int k = 0;// 中间变量
         char[] arrayOfChar = s.toCharArray();// 将字符串转换成字符数组
-        while ((j < i) && (arrayOfChar[(k + j)] <= ' '))
+        while ((j < i) && (arrayOfChar[(k + j)] <= ' ')) {
             ++j;// 确定字符串前面的空格数
-        while ((j < i) && (arrayOfChar[(k + i - 1)] <= ' '))
+        }
+        while ((j < i) && (arrayOfChar[(k + i - 1)] <= ' ')) {
             --i;// 确定字符串后面的空格数
+        }
         return (((j > 0) || (i < s.length())) ? s.substring(j, i) : s);// 返回去除空格后的字符串
     }
 

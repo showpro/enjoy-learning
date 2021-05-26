@@ -99,19 +99,19 @@
 
         <!--外部tomcat-->
         <!--如果项目中依赖了spring-boot-starter-web，spring-boot-starter-web中包含内嵌的tomcat容器,如果想使用外部tomcat，需要移除对内嵌tomcat的依赖-->
-<!--        <dependency>
+        <dependency>
             <groupId>org.apache.tomcat.embed</groupId>
             <artifactId>tomcat-embed-core</artifactId>
             <version>9.0.17</version>
-        </dependency>-->
+        </dependency>
 
         <!--处理中文转换成拼音-->
-<!--        <dependency>
+        <dependency>
             <groupId>com.belerweb</groupId>
             <artifactId>pinyin4j</artifactId>
             <version>2.5.0</version>
             <scope>compile</scope>
-        </dependency>-->
+        </dependency>
 
     </dependencies>
 
