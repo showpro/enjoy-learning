@@ -89,13 +89,23 @@
             <artifactId>commons-jexl</artifactId>
             <version>2.0</version>
         </dependency>
-        
+
+        <!--hutool工具包-->
+        <dependency>
+            <groupId>cn.hutool</groupId>
+            <artifactId>hutool-all</artifactId>
+            <version>4.6.2</version>
+        </dependency>
+
+        <!--外部tomcat-->
+        <!--如果项目中依赖了spring-boot-starter-web，spring-boot-starter-web中包含内嵌的tomcat容器,如果想使用外部tomcat，需要移除对内嵌tomcat的依赖-->
         <dependency>
             <groupId>org.apache.tomcat.embed</groupId>
             <artifactId>tomcat-embed-core</artifactId>
             <version>9.0.17</version>
         </dependency>
 
+        <!--处理中文转换成拼音-->
         <dependency>
             <groupId>com.belerweb</groupId>
             <artifactId>pinyin4j</artifactId>
