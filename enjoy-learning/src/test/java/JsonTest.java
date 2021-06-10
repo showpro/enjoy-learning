@@ -55,5 +55,34 @@ public class JsonTest {
         });
         JSONArray jsonArray = JSONArray.parseArray(list.toString());
         System.out.println("排序后：" + jsonArray);
+
+        //JSON数组
+        //message=[{"headers":{"host":"192.168.133.128","user-agent":"lua-resty-http/0.16.1 (Lua) ngx_lua/9014"},"method":"GET","uri_args":{"productId":"26","shopId":"1"},"raw_reader":"GET /product?productId=26&shopId=1 HTTP/1.1\r\nHost: 192.168.133.128\r\nUser-Agent: lua-resty-http/0.16.1 (Lua) ngx_lua/9014\r\n\r\n","http_version":1.1,"request_module":"product_detail_info"},{"headers":{"host":"192.168.133.128","user-agent":"lua-resty-http/0.16.1 (Lua) ngx_lua/9014"},"method":"GET","uri_args":{"productId":"26","shopId":"1"},"raw_reader":"GET /product?productId=26&shopId=1 HTTP/1.1\r\nHost: 192.168.133.128\r\nUser-Agent: lua-resty-http/0.16.1 (Lua) ngx_lua/9014\r\n\r\n","http_version":1.1,"request_module":"product_detail_info"},{"headers":{"host":"192.168.133.128","user-agent":"lua-resty-http/0.16.1 (Lua) ngx_lua/9014"},"method":"GET","uri_args":{"productId":"26","shopId":"1"},"raw_reader":"GET /product?productId=26&shopId=1 HTTP/1.1\r\nHost: 192.168.133.128\r\nUser-Agent: lua-resty-http/0.16.1 (Lua) ngx_lua/9014\r\n\r\n","http_version":1.1,"request_module":"product_detail_info"}]
+        String message = "[{\n" + "\t\"headers\": {\n" + "\t\t\"host\": \"192.168.133.128\",\n"
+            + "\t\t\"user-agent\": \"lua-resty-http/0.16.1 (Lua) ngx_lua/9014\"\n" + "\t},\n"
+            + "\t\"method\": \"GET\",\n" + "\t\"uri_args\": {\n" + "\t\t\"productId\": \"26\",\n"
+            + "\t\t\"shopId\": \"1\"\n" + "\t},\n"
+            + "\t\"raw_reader\": \"GET /product?productId=26&shopId=1 HTTP/1.1\\r\\nHost: 192.168.133.128\\r\\nUser-Agent: lua-resty-http/0.16.1 (Lua) ngx_lua/9014\\r\\n\\r\\n\",\n"
+            + "\t\"http_version\": 1.1,\n" + "\t\"request_module\": \"product_detail_info\"\n" + "}, {\n"
+            + "\t\"headers\": {\n" + "\t\t\"host\": \"192.168.133.128\",\n"
+            + "\t\t\"user-agent\": \"lua-resty-http/0.16.1 (Lua) ngx_lua/9014\"\n" + "\t},\n"
+            + "\t\"method\": \"GET\",\n" + "\t\"uri_args\": {\n" + "\t\t\"productId\": \"26\",\n"
+            + "\t\t\"shopId\": \"1\"\n" + "\t},\n"
+            + "\t\"raw_reader\": \"GET /product?productId=26&shopId=1 HTTP/1.1\\r\\nHost: 192.168.133.128\\r\\nUser-Agent: lua-resty-http/0.16.1 (Lua) ngx_lua/9014\\r\\n\\r\\n\",\n"
+            + "\t\"http_version\": 1.1,\n" + "\t\"request_module\": \"product_detail_info\"\n" + "}, {\n"
+            + "\t\"headers\": {\n" + "\t\t\"host\": \"192.168.133.128\",\n"
+            + "\t\t\"user-agent\": \"lua-resty-http/0.16.1 (Lua) ngx_lua/9014\"\n" + "\t},\n"
+            + "\t\"method\": \"GET\",\n" + "\t\"uri_args\": {\n" + "\t\t\"productId\": \"26\",\n"
+            + "\t\t\"shopId\": \"1\"\n" + "\t},\n"
+            + "\t\"raw_reader\": \"GET /product?productId=26&shopId=1 HTTP/1.1\\r\\nHost: 192.168.133.128\\r\\nUser-Agent: lua-resty-http/0.16.1 (Lua) ngx_lua/9014\\r\\n\\r\\n\",\n"
+            + "\t\"http_version\": 1.1,\n" + "\t\"request_module\": \"product_detail_info\"\n" + "}]";
+
+        JSONArray jsArray = JSONArray.parseArray(message);
+
+        JSONObject messageJSON = JSONObject.parseObject(message);
+        JSONObject uriArgsJSON = messageJSON.getJSONObject("uri_args");
+
+        Long productId = uriArgsJSON.getLong("productId");
+
     }
 }
