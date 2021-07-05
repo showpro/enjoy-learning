@@ -1,4 +1,8 @@
+import com.google.common.base.Splitter;
 import org.junit.Test;
+
+import java.math.BigDecimal;
+import java.util.Map;
 
 /**
  * @Description
@@ -31,15 +35,28 @@ import org.junit.Test;
  */
 public class Main {
     public static void main(String[] args) {
-        Integer i = 11;
-        Boolean flag = false;
-        System.out.println(flag ? 0 : i);
+//        Integer i = 11;
+//        Boolean flag = false;
+//        System.out.println(flag ? 0 : i);
+//
+//        String str="dx123abc456";
+//        int j=2;
+//        //去掉字符串的前i个字符：
+//        str=str.substring(str.lastIndexOf("x")+1);
+//        System.out.println(str);
 
-        String str="dx123abc456";
-        int j=2;
-        //去掉字符串的前i个字符：
-        str=str.substring(str.lastIndexOf("x")+1);
-        System.out.println(str);
+        String url1= "https://mc.whhhealth.com/?_id=607558c31211ff16adf76bfb";
+        String url2= "http://mc-alpha.whhhealth.com/?_id=5fea8b4156a4f30e4220aacd";
+        String url3= "http://mc-alpha.whhhealth.com/?_id=60ca9e50c894f83e6d688717&platform=KXW";
+
+        String id1 = getParam(url1, "_id");
+        System.out.println(id1);
+
+        String id2 = getParam(url2, "_id");
+        System.out.println(id2);
+
+        String id3 = getParam(url3, "_id");
+        System.out.println(id3);
     }
 
 //    @Test
@@ -48,4 +65,20 @@ public class Main {
 //        Boolean flag = false;
 //        System.out.println(flag ? 0 : i);
 //    }
+
+
+    /**
+     * https://mc.whhhealth.com/?_id=607558c31211ff16adf76bfb
+     * http://mc-alpha.whhhealth.com/?_id=5fea8b4156a4f30e4220aacd
+     * http://mc-alpha.whhhealth.com/?_id=60ca9e50c894f83e6d688717&platform=KXW
+     *
+     * @param url
+     * @param name
+     * @return
+     */
+    public static String getParam(String url, String name) {
+        String params = url.substring(url.indexOf("?") + 1, url.length());
+        Map<String, String> split = Splitter.on("&").withKeyValueSeparator("=").split(params);
+        return split.get(name);
+    }
 }

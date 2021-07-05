@@ -1,6 +1,10 @@
 package com.bejson.pojo;
 
 /**
+ *         <dependency>
+ *             <groupId>com.wahaha.mall.sensitive</groupId>
+ *             <artifactId>sensitive-word-client</artifactId>
+ *         </dependency>
  * 评论记录实体类
  *
  * @author zhanzhan
@@ -15,7 +19,7 @@ public class Comment {
     private String authorName;
     //评论用户等级
     private int honorLevel;
-    //评论游用户头像
+    //评论用户头像
     private String headImg;
     //热度
     private int hotValue;
@@ -23,6 +27,8 @@ public class Comment {
     private int toUserId = 0;
     //记录回复指向的人,即回复目标(只会发生在回复中，默认 "")
     private String toUserName;
+    //评论图片
+    private String commentPictures;
     //评论内容："基础八股😂"
     private String content;
     //评论内容： "{\"pureText\":\"基础八股😂\"}"
@@ -39,13 +45,17 @@ public class Comment {
     private int entryOwnerId;
     //记录回复指向的评论,即回复目标(只会发生在回复中，判断toCommentId=0，目标为0，说明未回复)
     private int toCommentId = 0;
+    //是否展示: 默认不展现：0, 展现：1
+    private int showStatus;
+    //是否匿名,默认不匿名：0，匿名：1
+    private int isAnonymous;
     //评论的回复数量
     private int commentCnt;
     //评论的点赞数
     private int likes;
     //评论的回踩数
     private int dislikes;
-
+    //是否收藏
     private boolean isLiked;
 
     private boolean isDisLiked;
