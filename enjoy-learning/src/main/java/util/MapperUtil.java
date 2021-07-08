@@ -7,6 +7,7 @@ import ma.glasnost.orika.metadata.ClassMapBuilder;
 import org.springframework.beans.BeanWrapper;
 import org.springframework.beans.BeanWrapperImpl;
 
+import java.lang.reflect.Field;
 import java.util.*;
 import java.util.concurrent.ConcurrentHashMap;
 
@@ -15,7 +16,7 @@ import java.util.concurrent.ConcurrentHashMap;
  * 后来采用单例的模式，解决了这个问题。这里单例使用的是枚举方式实现的，也是效率比较高的一种吧
  * 使用：MapperUtil.INSTANCE.map(UserResult.class, user);这样就可以将 User 对象转换成我们需要的 UserResult 对象返回了
  *
- * @Description  映射工具类
+ * @Description 映射工具类
  * @Author zhanzhan
  * @Date 2020/10/12 10:12
  */
@@ -103,7 +104,7 @@ public enum MapperUtil {
 
     /**
      * 动态拿到源对象中为null的属性名
-     *
+     * <p>
      * BeanUtils.copyProperties(source, target, nullPropertyNames);
      *
      * @param source
@@ -121,5 +122,30 @@ public enum MapperUtil {
         }
         String[] result = new String[emptyNames.size()];
         return emptyNames.toArray(result);
+    }
+
+    /**
+     * 同类对象之间非空属性间赋值
+     *
+     * 将origin属性注入到destination中
+     */
+    public static <T> void mergeObject(T origin, T destination) {
+        if (origin == null || destination == null)
+            return;
+        if (!origin.getClass().equals(destination.getClass()))
+            return;
+
+        Field[] fields = origin.getClass().getDeclaredFields();
+        for (int i = 0; i < fields.length; i++) {
+            try {
+                fields[i].setAccessible(true);
+                Object value = fields[i].get(origin);
+                if (null != value) {
+                    fields[i].set(destination, value);
+                }
+                fields[i].setAccessible(false);
+            } catch (Exception e) {
+            }
+        }
     }
 }
